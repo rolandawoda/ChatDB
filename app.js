@@ -2,10 +2,9 @@ const http = require("http");
 const morgan = require("morgan");
 const cors = require("cors");
 const express = require("express");
-const socketio =  require("socket.io");
-const compression = require('compression');
+const { Server } = require("socket.io");
+const compression = require("compression");
 const helmet = require("helmet");
-
 
 //App Routes
 const authRoutes = require("./routes/auth");
@@ -18,7 +17,7 @@ const deleteRouter = require("./routes/delete");
 const jwt = require("./middlewares/jwt");
 
 const app = express();
-require('./config/mongo');
+require("./config/mongo");
 const WebSockets = require("./utils/WebSockets");
 
 const port = process.env.port || 3000;
@@ -44,8 +43,8 @@ app.use("*", (req, res) => {
 });
 
 const server = http.createServer(app);
-global.io = socketio.listen(server);
-global.io.on('connection', WebSockets.connection);
+global.io = new Server(server);
+global.io.on("connection", WebSockets.connection);
 
 server.listen(port);
 server.on("listening", () => {

@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const config = require('./index.js');
 
-// const CONNECTION_URL = `mongodb://${config.db.url}/${config.db.name}`;
-const CONNECTION_URL = `mongodb+srv://${config.db.username}:${config.db.password}@chat.tfkiv.mongodb.net/${config.db.name}?retryWrites=true&w=majority`;
+const CONNECTION_URL = process.env.MONGODB_URI || `mongodb+srv://${config.db.username}:${config.db.password}@chat.tfkiv.mongodb.net/${config.db.name}?retryWrites=true&w=majority`;
 
 mongoose.connect(CONNECTION_URL, {
   useNewUrlParser: true,
