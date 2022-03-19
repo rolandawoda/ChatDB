@@ -5,7 +5,6 @@ const express = require("express");
 const { Server } = require("socket.io");
 const compression = require("compression");
 const helmet = require("helmet");
-const fs =  require('fs');
 
 //App Routes
 const authRoutes = require("./routes/auth");
@@ -22,14 +21,13 @@ require("./config/mongo");
 const WebSockets = require("./utils/WebSockets");
 
 const port = process.env.port || 3000;
-const accessLogStream = fs.createWriteStream(__dirname, 'access.log', {flags: 'a'});
 
 app.set("port", port);
 app.use(compression());
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(morgan('combined', {stream: accessLogStream})); //logger
+app.use(morgan('dev')); //logger
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/auth", authRoutes);
